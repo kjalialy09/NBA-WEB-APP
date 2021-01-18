@@ -1,0 +1,186 @@
+
+  <div class="jumbotron jumbotron-fluid">
+    <h1 class="display-4"><b>{{team.teamName}}</b><img src={{team.logoUrl}} style="width: 125px;"></h1>
+    <h4><b>{{team.position}}</b> in {{team.conference}}ern Conference</h4>
+    <h5><b>Head Coach: </b>{{getHeadCoach()}}</h5>
+    <h5><b>Assistant Coaches: </b>{{getAssistant()}}</h5>
+  </div>
+
+<header id = "button-group" class="btn-group sticky-top" role="group" aria-label="Basic example">
+  <button (click)="scrollToDivision()" data-toggle="tooltip" data-placement="top" title="View Team Roster" style = "width: 15rem;" type="button" class="btn btn-dark">Division Standings | Team Stats</button>
+  <button (click)="scrollToRoster()" data-toggle="tooltip" data-placement="top" title="View Team Roster" style = "width: 15rem;" type="button" class="btn btn-danger">Team Roster</button>
+  <button (click)="scrollToLeaders()" data-toggle="tooltip" data-placement="top" title="View Team Leaders" style = "width: 15rem;"type="button" class="btn btn-info">Team Leaders</button>
+</header>
+<br>  
+
+
+<div class = "row">
+  <div class = "col">
+    <h4 id = "division"><b>{{team.division}} Division Standings</b></h4>
+    <table class = "table table-responsive">
+      <thead class = "thead-dark">
+        <tr>
+          <th scope="col">Team</th>
+          <th scope="col">W</th>
+          <th scope="col">L</th>
+          <th scope="col">PCT</th>
+          <th scope="col">GB</th>
+          <th scope="col">STRK</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor = "let s of standings;">
+          <td><img src={{s.logoAlt}} style="width: 32px;"> <a routerLink="/teams/detail/{{s.teamID}}" routerLinkActive="active">{{s.teamName}}</a></td>
+          <td>{{s.w}}</td>
+          <td>{{s.l}}</td>
+          <td>{{s.pct}}</td>
+          <td>{{s.gb}}</td>
+          <div *ngIf = "s.isWinStreak == true; else elseBlock">
+            <td>W{{s.streak}}</td>
+          </div>
+          <ng-template #elseBlock><td>L{{s.streak}}</td></ng-template>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class = "col">
+    <h4><b>Schedule</b></h4>
+    <table class = "table table-hover" id = "sched">
+      <tbody>
+        <tr class = "thead-dark">
+          <th class = "justify-content-between" colspan="4">Schedule <a class="badge badge-primary float-right mt-1" routerLink="/schedule/{{teamId}}" routerLinkActive="active">See All</a></th>
+        </tr>
+        <tr *ngFor = "let s of schedule; index as x">
+          <td>{{getDate(s)}}</td>
+          <td>{{checkHome(s)}}</td>
+          <td><img style = "width: 32px;" src = "{{getAltName(s)}}"> {{getName(s)}}</td>
+          <td>{{checkIfLive(s)}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class = "col" style="width: 100%;">
+    <h4 id = "division"><b>Team Stats</b></h4>
+    <table id = "example" class = "table table-responsive">
+      <thead class = "thead-dark">
+        <tr>
+          <th scope = "col">YEAR</th>
+          <th scope = "col">PPG</th>
+          <th scope = "col">TRPG</th>
+          <th scope = "col">APG</th>
+          <th scope = "col">SPG</th>
+          <th scope = "col">BPG</th>
+          <th scope = "col">TPG</th>
+          <th scope = "col">FGP</th>
+          <th scope = "col">TPP</th>
+          <th scope = "col">FTP</th>
+          <th scope = "col">ORPG</th>
+          <th scope = "col">DRPG</th>
+          <th scope = "col">PF</th>
+          <th scope = "col">ORTG</th>
+          <th scope = "col">DRTG</th>
+          <th scope = "col">EFF</th>
+          <th scope = "col">PACE</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor = "let s of teamStats">
+          <td>{{s.year}}</td>
+          <td>{{s.ppg}}</td>
+          <td>{{s.trpg}}</td>
+          <td>{{s.apg}}</td>
+          <td>{{s.spg}}</td>
+          <td>{{s.bpg}}</td>
+          <td>{{s.tpg}}</td>
+          <td>{{(s.fgp * 100).toFixed(1)}}</td>
+          <td>{{(s.tpp * 100).toFixed(1)}}</td>
+          <td>{{(s.ftp * 100).toFixed(1)}}</td>
+          <td>{{s.orpg}}</td>
+          <td>{{s.drpg}}</td>
+          <td>{{s.pfpg}}</td>
+          <td>{{s.ortg}}</td>
+          <td>{{s.drtg}}</td>
+          <td>{{s.eff}}</td>
+          <td>{{s.pace}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div *ngIf = "players" id = "teamRoster">
+    <h4><b>Team Roster</b></h4>
+    <div class = "row">
+            <div class = "playersRow" *ngFor = "let p of players">
+              <div class="card">
+                  <img src={{p.pic}} (error) = "p.pic = errorImg" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title"><a routerLink="/players/detail/{{p.playerId}}" routerLinkActive="active">{{p.fName}} {{p.lName}}</a></h5>
+                    <p class="card-text"><b>Position:</b> {{p.pos}}</p>
+                  </div>
+              </div>
+              &nbsp;&nbsp;
+            </div>
+        </div>
+</div>
+
+<h4 id = "leadersRow"><b>Team Leaders</b></h4>
+<div class = "row">
+        <div class="card">
+            <img src={{leaders.ptsId.pic}} (error) = "leaders.ptsId.pic = errorImg" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title"><a routerLink="/players/detail/{{leaders.ptsId.playerId}}" routerLinkActive="active">{{leaders.ptsId.fName}} {{leaders.ptsId.lName}}</a></h5>
+              <p class="card-text"><b>PPG:</b> {{leaders.ptsValue}}</p>
+            </div>
+          </div>
+          <div class="card">
+            <img src={{leaders.rbsId.pic}} (error) = "leaders.rbsId.pic = errorImg" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title"><a routerLink="/players/detail/{{leaders.rbsId.playerId}}" routerLinkActive="active">{{leaders.rbsId.fName}} {{leaders.rbsId.lName}}</a></h5>
+              <p class="card-text"><b>RPG:</b> {{leaders.rbsValue}}</p>
+            </div>
+          </div>
+          <div class="card">
+            <img src={{leaders.astId.pic}} (error) = "leaders.astId.pic = errorImg" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title"><a routerLink="/players/detail/{{leaders.astId.playerId}}" routerLinkActive="active">{{leaders.astId.fName}} {{leaders.astId.lName}}</a></h5>
+              <p class="card-text"><b>APG:</b> {{leaders.astValue}}</p>
+            </div>
+          </div>
+          <div class="card">
+            <img src={{leaders.stlId.pic}} (error) = "leaders.stlId.pic = errorImg" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title"><a routerLink="/players/detail/{{leaders.stlId.playerId}}" routerLinkActive="active">{{leaders.stlId.fName}} {{leaders.stlId.lName}}</a></h5>
+              <p class="card-text"><b>SPG:</b> {{leaders.stlValue}}</p>
+            </div>
+          </div>
+          <div class="card">
+            <img src={{leaders.blkId.pic}} (error) = "leaders.blkId.pic = errorImg" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title"><a routerLink="/players/detail/{{leaders.blkId.playerId}}" routerLinkActive="active">{{leaders.blkId.fName}} {{leaders.blkId.lName}}</a></h5>
+              <p class="card-text"><b>BPG:</b> {{leaders.blkValue}}</p>
+            </div>
+          </div>
+          <div class="card">
+            <img src={{leaders.fgpId.pic}} (error) = "leaders.fgpId.pic = errorImg" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title"><a routerLink="/players/detail/{{leaders.fgpId.playerId}}" routerLinkActive="active">{{leaders.fgpId.fName}} {{leaders.fgpId.lName}}</a></h5>
+              <p class="card-text"><b>FG%:</b> {{leaders.fgpValue}}%</p>
+            </div>
+          </div>
+          <div class="card">
+            <img src={{leaders.ttpId.pic}} (error) = "leaders.ttpId.pic = errorImg" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title"><a routerLink="/players/detail/{{leaders.ttpId.playerId}}" routerLinkActive="active">{{leaders.ttpId.fName}} {{leaders.ttpId.lName}}</a></h5>
+              <p class="card-text"><b>3PT%:</b> {{leaders.ttpValue}}%</p>
+            </div>
+          </div>
+          <div class="card">
+            <img src={{leaders.ftpId.pic}} (error) = "leaders.ftpId.pic = errorImg" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title"><a routerLink="/players/detail/{{leaders.ftpId.playerId}}" routerLinkActive="active">{{leaders.ftpId.fName}} {{leaders.ftpId.lName}}</a></h5>
+              <p class="card-text"><b>FT%:</b> {{leaders.ftpValue}}%</p>
+            </div>
+          </div>
+    </div>

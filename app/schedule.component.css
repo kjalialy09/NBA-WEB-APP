@@ -1,0 +1,13 @@
+.btn:hover {
+    color: #fff !important;
+    text-decoration: none;
+}
+
+.jumbotron {
+    color: white;
+    background-image: url("https://pbs.twimg.com/profile_banners/73406718/1608674991/600x200");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+

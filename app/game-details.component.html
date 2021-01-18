@@ -1,0 +1,584 @@
+<div class = "row">
+    <div class = "col-md-8">
+        <table class = "table table-hover" >
+            <tbody>
+              <tr class = "thead-dark">
+                <th class = "justify-content-between" colspan="3">{{getDate(currentDate)}}
+                    <span class = "badge badge-primary float-right" style="font-size: medium;">{{setQtr()}}</span>
+                </th>
+              </tr>
+              <tr>
+                  <td><h2><img src="https://cdn.nba.net/assets/logos/teams/secondary/web/{{scoreInfo.basicGameData.vTeam.triCode}}.svg" style="width: 60px;"><a routerLink = "/teams/detail/{{scoreInfo.basicGameData.vTeam.teamId}}">{{getName(scoreInfo.basicGameData.vTeam.teamId)}}</a></h2></td>
+                  <ng-container *ngIf = "scoreInfo.basicGameData.vTeam.score != ''">
+                      <th><h2>{{scoreInfo.basicGameData.vTeam.score}}</h2></th>
+                  </ng-container>
+              </tr>
+              <tr>
+                <td><h2><img src="https://cdn.nba.net/assets/logos/teams/secondary/web/{{scoreInfo.basicGameData.hTeam.triCode}}.svg" style="width: 60px;"><a routerLink = "/teams/detail/{{scoreInfo.basicGameData.hTeam.teamId}}">{{getName(scoreInfo.basicGameData.hTeam.teamId)}}</a></h2></td>
+                <ng-container *ngIf = "scoreInfo.basicGameData.hTeam.score != ''">
+                    <th id="color"><h2>{{scoreInfo.basicGameData.hTeam.score}}</h2></th>
+                </ng-container>
+              </tr>
+            </tbody>
+          </table>
+          <hr>
+          <ng-container *ngIf = "scoreInfo.basicGameData.playoffs">
+              <a class = "btn btn-dark text-white" style = "width: 100%;"><b>{{getPlayoffs()}}</b></a>
+              <hr>
+          </ng-container>
+          <ng-container *ngIf = "scoreInfo.basicGameData.statusNum == 1">
+              <h3><b>Injuries</b></h3>
+              <h4><b><img src="https://cdn.nba.net/assets/logos/teams/secondary/web/{{scoreInfo.basicGameData.hTeam.triCode}}.svg" style="width: 50px;">{{getName(scoreInfo.basicGameData.hTeam.teamId)}}</b></h4>
+              <table class = "table table-hove table-responsive" id = "injuries">
+                <tbody>
+                  <tr class = "thead-dark">
+                      <th></th>
+                      <th>Name</th>
+                      <th>Injury</th>
+                      <th>Date</th>
+                      <th>Notes</th>
+                  </tr>
+                  <ng-container *ngFor = "let i of hTeamInj.players;">
+                      <tr>
+                          <td>
+                              <img src = "https://cdn.nba.com/headshots/nba/latest/1040x760/{{i.playerId}}.png"style="border-radius: 50%; width: 4rem;">
+                          </td>
+                          <td>
+                            <p>{{i.name}}</p>
+                            </td>
+                            <td>
+                            <p>{{i.injury}}</p>
+                        </td>
+                        <td>
+                            <p>{{i.date}}</p>
+                        </td>
+                        <td>
+                            <p>{{i.notes}}</p>
+                        </td>
+                    </tr>
+                  </ng-container>   
+                </tbody>
+              </table>
+              <h4><b><img src="https://cdn.nba.net/assets/logos/teams/secondary/web/{{scoreInfo.basicGameData.vTeam.triCode}}.svg" style="width: 50px;">{{getName(scoreInfo.basicGameData.vTeam.teamId)}}</b></h4>
+              <table class = "table table-hover table-responsive" id = "injuries">
+                <tbody>
+                  <tr class = "thead-dark">
+                      <th></th>
+                      <th>Name</th>
+                      <th>Injury</th>
+                      <th>Date</th>
+                      <th>Notes</th>
+                  </tr>
+                  <ng-container *ngFor = "let i of vTeamInj.players;">
+                      <tr>
+                          <td>
+                              <img src = "https://cdn.nba.com/headshots/nba/latest/1040x760/{{i.playerId}}.png"style="border-radius: 50%; width: 4rem;">
+                          </td>
+                          <td>
+                            <p>{{i.name}}</p>
+                            </td>
+                            <td>
+                            <p>{{i.injury}}</p>
+                        </td>
+                        <td>
+                            <p>{{i.date}}</p>
+                        </td>
+                        <td>
+                            <p>{{i.notes}}</p>
+                        </td>
+                    </tr>
+                  </ng-container>   
+                </tbody>
+              </table>
+          </ng-container>
+          <div *ngIf = "scoreInfo.basicGameData.statusNum == 2 || scoreInfo.basicGameData.statusNum == 3">
+              <h3><img src="https://cdn.nba.net/assets/logos/teams/secondary/web/{{scoreInfo.basicGameData.vTeam.triCode}}.svg" style="width: 60px;"><b>{{getName(scoreInfo.basicGameData.vTeam.teamId)}}</b></h3>
+              <table class = "table table-hover table-responsive" id = "playerStats">
+                  <thead class = "thead-dark">
+                    <tr>
+                        <th>Player</th>
+                        <th>MIN</th>
+                        <th>PTS</th>
+                        <th>REB</th>
+                        <th>AST</th>
+                        <th>STL</th>
+                        <th>BLK</th>
+                        <th>TO</th>
+                        <th>PF</th>
+                        <th>OREB</th>
+                        <th>DREB</th>
+                        <th>FG</th>
+                        <th>FG%</th>
+                        <th>3PT</th>
+                        <th>3PT%</th>
+                        <th>FT</th>
+                        <th>FT%</th>
+                        <th>+/-</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      <ng-container *ngFor = "let i of scoreInfo.stats.activePlayers;">
+                          <tr>
+                              <ng-container *ngIf = "i.teamId == scoreInfo.basicGameData.vTeam.teamId">
+                                  <th scope = "row"><a routerLink = "/players/detail/{{i.personId}}" routerLinkActive = "active">{{i.firstName}} {{i.lastName}}<span class = "emoji">{{validateActive(i)}}</span></a></th>
+                                  <td>{{i.min}}</td>
+                                  <td>{{i.points}}</td>
+                                  <td>{{i.totReb}}</td>
+                                  <td>{{i.assists}}</td>
+                                  <td>{{i.steals}}</td>
+                                  <td>{{i.blocks}}</td>
+                                  <td>{{i.turnovers}}</td>
+                                  <td>{{i.pFouls}}</td>
+                                  <td>{{i.offReb}}</td>
+                                  <td>{{i.defReb}}</td>
+                                  <td>{{i.fgm}}/{{i.fga}}</td>
+                                  <td>{{i.fgp}}</td>
+                                  <td>{{i.tpm}}/{{i.tpa}}</td>
+                                  <td>{{i.tpp}}</td>
+                                  <td>{{i.ftm}}/{{i.fta}}</td>
+                                  <td>{{i.ftp}}</td>
+                                  <td>{{i.plusMinus}}</td>
+                              </ng-container>
+                          </tr>
+                      </ng-container>
+                  </tbody>
+              </table>
+              <ng-container *ngIf = "scoreInfo.basicGameData.isGameActivated">
+                  <p>🟢<b> - On court</b></p>
+              </ng-container>
+              <hr>
+              <h3><img src="https://cdn.nba.net/assets/logos/teams/secondary/web/{{scoreInfo.basicGameData.hTeam.triCode}}.svg" style="width: 60px;"><b>{{getName(scoreInfo.basicGameData.hTeam.teamId)}}</b></h3>
+              <table class = "table table-hover table-responsive" id = "playerStats">
+                  <thead>
+                      <tr class = "thead-dark">
+                          <th>Player</th>
+                          <th>MIN</th>
+                          <th>PTS</th>
+                          <th>REB</th>
+                          <th>AST</th>
+                          <th>STL</th>
+                          <th>BLK</th>
+                          <th>TO</th>
+                          <th>PF</th>
+                          <th>OREB</th>
+                          <th>DREB</th>
+                          <th>FG</th>
+                          <th>FG%</th>
+                          <th>3PT</th>
+                          <th>3PT%</th>
+                          <th>FT</th>
+                          <th>FT%</th>
+                          <th>+/-</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <ng-container *ngFor = "let i of scoreInfo.stats.activePlayers;">
+                        <tr>
+                            <ng-container *ngIf = "i.teamId == scoreInfo.basicGameData.hTeam.teamId">
+                                <th><a routerLink = "/players/detail/{{i.personId}}" routerLinkActive = "active">{{i.firstName}} {{i.lastName}}<span class = "emoji">{{validateActive(i)}}</span></a></th>
+                                <td>{{i.min}}</td>
+                                <td>{{i.points}}</td>   
+                                <td>{{i.totReb}}</td>
+                                <td>{{i.assists}}</td>
+                                <td>{{i.steals}}</td>
+                                <td>{{i.blocks}}</td>
+                                <td>{{i.turnovers}}</td>
+                                <td>{{i.pFouls}}</td>
+                                <td>{{i.offReb}}</td>
+                                <td>{{i.defReb}}</td>
+                                <td>{{i.fgm}}/{{i.fga}}</td>
+                                <td>{{i.fgp}}</td>
+                                <td>{{i.tpm}}/{{i.tpa}}</td>
+                                <td>{{i.tpp}}</td>
+                                <td>{{i.ftm}}/{{i.fta}}</td>
+                                <td>{{i.ftp}}</td>
+                                <td>{{i.plusMinus}}</td>
+                            </ng-container>
+                        </tr>
+                    </ng-container>
+                  </tbody>
+              </table>
+              <ng-container *ngIf = "scoreInfo.basicGameData.isGameActivated">
+                <p>🟢<b> - On court</b></p>
+                </ng-container>
+              <hr>
+              <h3><b>Team Stats</b></h3>
+              <table class = "table table-hover" id = "teamStats">
+                  <thead class = "thead-dark">
+                      <tr>
+                          <th></th>
+                          <th><img src="https://cdn.nba.net/assets/logos/teams/secondary/web/{{scoreInfo.basicGameData.vTeam.triCode}}.svg" style="width: 40px;"> {{scoreInfo.basicGameData.vTeam.triCode}}</th>
+                          <th><img src="https://cdn.nba.net/assets/logos/teams/secondary/web/{{scoreInfo.basicGameData.hTeam.triCode}}.svg" style="width: 40px;"> {{scoreInfo.basicGameData.hTeam.triCode}}</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <th>Field Goal %</th>
+                          <ng-container *ngIf = "convertToFloat(scoreInfo.stats.vTeam.totals.fgp) == convertToFloat(scoreInfo.stats.hTeam.totals.fgp); else fieldGoal">
+                            <td>{{scoreInfo.stats.vTeam.totals.fgp}}%<br>({{scoreInfo.stats.vTeam.totals.fgm}}/{{scoreInfo.stats.vTeam.totals.fga}})</td>
+                            <td>{{scoreInfo.stats.hTeam.totals.fgp}}%<br>({{scoreInfo.stats.hTeam.totals.fgm}}/{{scoreInfo.stats.hTeam.totals.fga}})</td>
+                          </ng-container>
+                          <ng-template #fieldGoal>
+                              <ng-container *ngIf = "convertToFloat(scoreInfo.stats.vTeam.totals.fgp) > convertToFloat(scoreInfo.stats.hTeam.totals.fgp); else elseBlock">
+                                  <td><b>{{scoreInfo.stats.vTeam.totals.fgp}}%<br>({{scoreInfo.stats.vTeam.totals.fgm}}/{{scoreInfo.stats.vTeam.totals.fga}})</b></td>
+                                  <td>{{scoreInfo.stats.hTeam.totals.fgp}}%<br>({{scoreInfo.stats.hTeam.totals.fgm}}/{{scoreInfo.stats.hTeam.totals.fga}})</td>
+                                </ng-container>
+                              <ng-template #elseBlock>
+                                  <td>{{scoreInfo.stats.vTeam.totals.fgp}}%<br>({{scoreInfo.stats.vTeam.totals.fgm}}/{{scoreInfo.stats.vTeam.totals.fga}})</td>
+                                  <td><b>{{scoreInfo.stats.hTeam.totals.fgp}}%<br>({{scoreInfo.stats.hTeam.totals.fgm}}/{{scoreInfo.stats.hTeam.totals.fga}})</b></td>
+                              </ng-template>
+                          </ng-template>
+                      </tr>
+                      <tr>
+                        <th>3 Point %</th>
+                        <ng-container *ngIf = "convertToFloat(scoreInfo.stats.vTeam.totals.tpp) == convertToFloat(scoreInfo.stats.hTeam.totals.tpp); else threePt">
+                            <td>{{scoreInfo.stats.vTeam.totals.tpp}}%<br>({{scoreInfo.stats.vTeam.totals.tpm}}/{{scoreInfo.stats.vTeam.totals.tpa}})</td>
+                            <td>{{scoreInfo.stats.hTeam.totals.tpp}}%<br>({{scoreInfo.stats.hTeam.totals.tpm}}/{{scoreInfo.stats.hTeam.totals.tpa}})</td>
+                        </ng-container>
+                        <ng-template #threePt>
+                            <ng-container *ngIf = "convertToFloat(scoreInfo.stats.vTeam.totals.tpp) > convertToFloat(scoreInfo.stats.hTeam.totals.tpp); else else3pt">
+                                <td><b>{{scoreInfo.stats.vTeam.totals.tpp}}%<br>({{scoreInfo.stats.vTeam.totals.tpm}}/{{scoreInfo.stats.vTeam.totals.tpa}})</b></td>
+                                <td>{{scoreInfo.stats.hTeam.totals.tpp}}%<br>({{scoreInfo.stats.hTeam.totals.tpm}}/{{scoreInfo.stats.hTeam.totals.tpa}})</td>
+                            </ng-container>
+                            <ng-template #else3pt>
+                                <td>{{scoreInfo.stats.vTeam.totals.tpp}}%<br>({{scoreInfo.stats.vTeam.totals.tpm}}/{{scoreInfo.stats.vTeam.totals.tpa}})</td>
+                                <td><b>{{scoreInfo.stats.hTeam.totals.tpp}}%<br>({{scoreInfo.stats.hTeam.totals.tpm}}/{{scoreInfo.stats.hTeam.totals.tpa}})</b></td>
+                            </ng-template>
+                        </ng-template>
+                    </tr>
+                    <tr>
+                        <th>Free Throw %</th>
+                        <ng-container *ngIf = "convertToFloat(scoreInfo.stats.vTeam.totals.ftp) == convertToFloat(scoreInfo.stats.hTeam.totals.ftp); else freeThrw">
+                            <td>{{scoreInfo.stats.vTeam.totals.ftp}}%<br>({{scoreInfo.stats.vTeam.totals.ftm}}/{{scoreInfo.stats.vTeam.totals.fta}})</td>
+                            <td>{{scoreInfo.stats.hTeam.totals.ftp}}%<br>({{scoreInfo.stats.hTeam.totals.ftm}}/{{scoreInfo.stats.hTeam.totals.fta}})</td>
+                        </ng-container>
+                        <ng-template #freeThrw>
+                            <ng-container *ngIf = "convertToFloat(scoreInfo.stats.vTeam.totals.ftp) > convertToFloat(scoreInfo.stats.hTeam.totals.ftp); else elseFt">
+                                <td><b>{{scoreInfo.stats.vTeam.totals.ftp}}%<br>({{scoreInfo.stats.vTeam.totals.ftm}}/{{scoreInfo.stats.vTeam.totals.fta}})</b></td>
+                                <td>{{scoreInfo.stats.hTeam.totals.ftp}}%<br>({{scoreInfo.stats.hTeam.totals.ftm}}/{{scoreInfo.stats.hTeam.totals.fta}})</td>
+                            </ng-container>
+                            <ng-template #elseFt>
+                                <td>{{scoreInfo.stats.vTeam.totals.ftp}}%<br>({{scoreInfo.stats.vTeam.totals.ftm}}/{{scoreInfo.stats.vTeam.totals.fta}})</td>
+                                <td><b>{{scoreInfo.stats.hTeam.totals.ftp}}%<br>({{scoreInfo.stats.hTeam.totals.ftm}}/{{scoreInfo.stats.hTeam.totals.fta}})</b></td>
+                            </ng-template>
+                        </ng-template>
+                    </tr>
+                    <tr>
+                        <th>Rebounds</th>
+                        <ng-container *ngIf = "convertToNum(scoreInfo.stats.vTeam.totals.totReb) == convertToNum(scoreInfo.stats.hTeam.totals.totReb); else totReb">
+                            <td>{{scoreInfo.stats.vTeam.totals.totReb}}</td>
+                            <td>{{scoreInfo.stats.hTeam.totals.totReb}}</td>
+                        </ng-container>
+                        <ng-template #totReb>
+                            <ng-container *ngIf = "convertToNum(scoreInfo.stats.vTeam.totals.totReb) > convertToNum(scoreInfo.stats.hTeam.totals.totReb); else elseReb">
+                                <td><b>{{scoreInfo.stats.vTeam.totals.totReb}}</b></td>
+                                <td>{{scoreInfo.stats.hTeam.totals.totReb}}</td>
+                            </ng-container>
+                            <ng-template #elseReb>
+                                <td>{{scoreInfo.stats.vTeam.totals.totReb}}</td>
+                                <td><b>{{scoreInfo.stats.hTeam.totals.totReb}}</b></td>
+                            </ng-template>
+                        </ng-template>
+                    </tr>
+                    <tr>
+                        <th>Assists</th>
+                        <ng-container *ngIf = "convertToNum(scoreInfo.stats.vTeam.totals.assists) == convertToNum(scoreInfo.stats.hTeam.totals.assists); else totAst">
+                            <td>{{scoreInfo.stats.vTeam.totals.assists}}    </td>
+                            <td>{{scoreInfo.stats.hTeam.totals.assists}}</td>
+                        </ng-container>
+                        <ng-template #totAst>
+                            <ng-container *ngIf = "convertToNum(scoreInfo.stats.vTeam.totals.assists) > convertToNum(scoreInfo.stats.hTeam.totals.assists); else elseAst">
+                                <td><b>{{scoreInfo.stats.vTeam.totals.assists}}</b></td>
+                                <td>{{scoreInfo.stats.hTeam.totals.assists}}</td>
+                            </ng-container>
+                            <ng-template #elseAst>
+                                <td>{{scoreInfo.stats.vTeam.totals.assists}}</td>
+                                <td><b>{{scoreInfo.stats.hTeam.totals.assists}}</b></td>
+                            </ng-template>
+                        </ng-template>
+                    </tr>
+                    <tr>
+                        <th>Steals</th>
+                        <ng-container *ngIf = "convertToNum(scoreInfo.stats.vTeam.totals.steals) == convertToNum(scoreInfo.stats.hTeam.totals.steals); else totStl">
+                            <td>{{scoreInfo.stats.vTeam.totals.steals}}</td>
+                            <td>{{scoreInfo.stats.hTeam.totals.steals}}</td>
+                        </ng-container>
+                        <ng-template #totStl>
+                            <ng-container *ngIf = "convertToNum(scoreInfo.stats.vTeam.totals.steals) > convertToNum(scoreInfo.stats.hTeam.totals.steals); else elseStl">
+                                <td><b>{{scoreInfo.stats.vTeam.totals.steals}}</b></td>
+                                <td>{{scoreInfo.stats.hTeam.totals.steals}}</td>
+                            </ng-container>
+                            <ng-template #elseStl>
+                                <td>{{scoreInfo.stats.vTeam.totals.steals}}</td>
+                                <td><b>{{scoreInfo.stats.hTeam.totals.steals}}</b></td>
+                            </ng-template>
+                        </ng-template>
+                    </tr>
+                    <tr>
+                        <th>Blocks</th>
+                        <ng-container *ngIf = "convertToNum(scoreInfo.stats.vTeam.totals.blocks) == convertToNum(scoreInfo.stats.hTeam.totals.blocks); else totBlk"> 
+                            <td>{{scoreInfo.stats.vTeam.totals.blocks}}</td>
+                            <td>{{scoreInfo.stats.hTeam.totals.blocks}}</td>
+                        </ng-container>
+                        <ng-template #totBlk>
+                            <ng-container *ngIf = "convertToNum(scoreInfo.stats.vTeam.totals.blocks) > convertToNum(scoreInfo.stats.hTeam.totals.blocks); else elseBlk">
+                                <td><b>{{scoreInfo.stats.vTeam.totals.blocks}}</b></td>
+                                <td>{{scoreInfo.stats.hTeam.totals.blocks}}</td>
+                            </ng-container>
+                            <ng-template #elseBlk>
+                                <td>{{scoreInfo.stats.vTeam.totals.blocks}}</td>
+                                <td><b>{{scoreInfo.stats.hTeam.totals.blocks}}</b></td>
+                            </ng-template>
+                        </ng-template>
+                    </tr>
+                    <tr>
+                        <th>Turnovers</th>
+                        <ng-container *ngIf = "convertToNum(scoreInfo.stats.vTeam.totals.turnovers) == convertToNum(scoreInfo.stats.hTeam.totals.turnovers); else totTo">
+                            <td>{{scoreInfo.stats.vTeam.totals.turnovers}}</td>
+                            <td>{{scoreInfo.stats.hTeam.totals.turnovers}}</td>
+                        </ng-container>
+                        <ng-template #totTo>
+                            <ng-container *ngIf = "convertToNum(scoreInfo.stats.vTeam.totals.turnovers) > convertToNum(scoreInfo.stats.hTeam.totals.turnovers); else elseTo">
+                                <td><b>{{scoreInfo.stats.vTeam.totals.turnovers}}</b></td>
+                                <td>{{scoreInfo.stats.hTeam.totals.turnovers}}</td>
+                            </ng-container>
+                            <ng-template #elseTo>
+                                <td>{{scoreInfo.stats.vTeam.totals.turnovers}}</td>
+                                <td><b>{{scoreInfo.stats.hTeam.totals.turnovers}}</b></td>
+                            </ng-template>
+                        </ng-template>
+                    </tr>
+                    <tr>
+                        <th>Fouls - Personal</th>
+                        <ng-container *ngIf = "convertToNum(scoreInfo.stats.vTeam.totals.pFouls) == convertToNum(scoreInfo.stats.hTeam.totals.pFouls); else totPf">
+                            <td>{{scoreInfo.stats.vTeam.totals.pFouls}}</td>
+                            <td>{{scoreInfo.stats.hTeam.totals.pFouls}}</td>
+                        </ng-container>
+                        <ng-template #totPf>
+                            <ng-container *ngIf = "convertToNum(scoreInfo.stats.vTeam.totals.pFouls) > convertToNum(scoreInfo.stats.hTeam.totals.pFouls); else elsePf">
+                                <td><b>{{scoreInfo.stats.vTeam.totals.pFouls}}</b></td>
+                                <td>{{scoreInfo.stats.hTeam.totals.pFouls}}</td>
+                            </ng-container>
+                            <ng-template #elsePf>
+                                <td>{{scoreInfo.stats.vTeam.totals.pFouls}}</td>
+                                <td><b>{{scoreInfo.stats.hTeam.totals.pFouls}}</b></td>
+                            </ng-template>
+                        </ng-template>
+                    </tr>
+                    <tr>
+                        <th>Points in the paint</th>
+                        <ng-container *ngIf = "convertToNum(scoreInfo.stats.vTeam.pointsInPaint) == convertToNum(scoreInfo.stats.hTeam.pointsInPaint); else points">
+                            <td>{{scoreInfo.stats.vTeam.pointsInPaint}}</td>
+                            <td>{{scoreInfo.stats.hTeam.pointsInPaint}}</td>
+                        </ng-container>
+
+                        <ng-template #points>
+                            <ng-container *ngIf = "convertToNum(scoreInfo.stats.vTeam.pointsInPaint) > convertToNum(scoreInfo.stats.hTeam.pointsInPaint); else elsePtP">
+                                <td><b>{{scoreInfo.stats.vTeam.pointsInPaint}}</b></td>
+                                <td>{{scoreInfo.stats.hTeam.pointsInPaint}}</td>
+                            </ng-container>
+                            <ng-template #elsePtP>
+                                <td>{{scoreInfo.stats.vTeam.pointsInPaint}}</td>
+                                <td><b>{{scoreInfo.stats.hTeam.pointsInPaint}}</b></td>
+                            </ng-template>
+                        </ng-template>
+                    </tr>
+                    <tr>
+                        <th>Fast Break points</th>
+                        <ng-container *ngIf = "convertToNum(scoreInfo.stats.vTeam.fastBreakPoints) == convertToNum(scoreInfo.stats.hTeam.fastBreakPoints); else totFbP">
+                            <td>{{scoreInfo.stats.vTeam.fastBreakPoints}}</td>
+                            <td>{{scoreInfo.stats.hTeam.fastBreakPoints}}</td>
+                        </ng-container>
+                        <ng-template #totFbP>
+                            <ng-container *ngIf = "convertToNum(scoreInfo.stats.vTeam.fastBreakPoints) > convertToNum(scoreInfo.stats.hTeam.fastBreakPoints); else elseFbP">
+                                <td><b>{{scoreInfo.stats.vTeam.fastBreakPoints}}</b></td>
+                                <td>{{scoreInfo.stats.hTeam.fastBreakPoints}}</td>
+                            </ng-container>
+                            <ng-template #elseFbP>
+                                <td>{{scoreInfo.stats.vTeam.fastBreakPoints}}</td>
+                                <td><b>{{scoreInfo.stats.hTeam.fastBreakPoints}}</b></td>
+                            </ng-template>
+                        </ng-template>
+                    </tr>
+                    <tr>
+                        <th>Second Chance points</th>
+                        <ng-container *ngIf = "convertToNum(scoreInfo.stats.vTeam.secondChancePoints) == convertToNum(scoreInfo.stats.hTeam.secondChancePoints); else totScP">
+                            <td>{{scoreInfo.stats.vTeam.secondChancePoints}}</td>
+                            <td>{{scoreInfo.stats.hTeam.secondChancePoints}}</td>
+                        </ng-container>
+                        <ng-template #totScP>
+
+                            <ng-container *ngIf = "convertToNum(scoreInfo.stats.vTeam.secondChancePoints) > convertToNum(scoreInfo.stats.hTeam.secondChancePoints); else elseScP">
+                                <td><b>{{scoreInfo.stats.vTeam.secondChancePoints}}</b></td>
+                                <td>{{scoreInfo.stats.hTeam.secondChancePoints}}</td>
+                            </ng-container>
+                            <ng-template #elseScP>
+                                <td>{{scoreInfo.stats.vTeam.secondChancePoints}}</td>
+                                <td><b>{{scoreInfo.stats.hTeam.secondChancePoints}}</b></td>
+                            </ng-template>
+                        </ng-template>
+                    </tr>
+                    <tr>
+                        <th>Biggest Lead</th>
+                        <ng-container *ngIf = "convertToNum(scoreInfo.stats.vTeam.biggestLead) == convertToNum(scoreInfo.stats.hTeam.biggestLead); else totBigL">
+                            <td>{{scoreInfo.stats.vTeam.biggestLead}}</td>
+                            <td>{{scoreInfo.stats.hTeam.biggestLead}}</td>
+                        </ng-container>
+                        <ng-template #totBigL>
+                            <ng-container *ngIf = "convertToNum(scoreInfo.stats.vTeam.biggestLead) > convertToNum(scoreInfo.stats.hTeam.biggestLead); else bigL">
+                                <td><b>{{scoreInfo.stats.vTeam.biggestLead}}</b></td>
+                                <td>{{scoreInfo.stats.hTeam.biggestLead}}</td>
+                            </ng-container>
+                            <ng-template #bigL>
+                                <td>{{scoreInfo.stats.vTeam.biggestLead}}</td>
+                                <td><b>{{scoreInfo.stats.hTeam.biggestLead}}</b></td>
+                            </ng-template>
+                        </ng-template>
+                    </tr>
+                  </tbody>
+              </table>
+          </div>
+    </div>
+    <div class = "col-md-4">
+        <ng-container *ngIf = "scoreInfo.basicGameData.statusNum == 2 || scoreInfo.basicGameData.statusNum == 3">
+            <h5><b>Linescore</b></h5>
+            <table class = "table table-hover table-responsive">
+                <tbody>
+                    <tr class = "thead-dark">
+                        <th></th>
+                        <ng-container *ngFor = "let i of scoreInfo.basicGameData.vTeam.linescore; index as x">
+                            <th>{{qtr[x]}}</th>
+                        </ng-container>
+                        <th>T</th>
+                    </tr>
+                    <tr>
+                        <td><img src="https://cdn.nba.net/assets/logos/teams/secondary/web/{{scoreInfo.basicGameData.vTeam.triCode}}.svg" style="width: 40px;"></td>
+                        <ng-container *ngFor = "let i of scoreInfo.basicGameData.vTeam.linescore; index as x">
+                            <td>{{validateLineScore(i.score, scoreInfo.basicGameData, x)}}</td>
+                        </ng-container>
+                        <th>{{scoreInfo.basicGameData.vTeam.score}}</th >
+                    </tr>
+                    <tr>
+                        <td><img src="https://cdn.nba.net/assets/logos/teams/secondary/web/{{scoreInfo.basicGameData.hTeam.triCode}}.svg" style="width: 40px;"></td>
+                        <ng-container *ngFor = "let i of scoreInfo.basicGameData.hTeam.linescore; index as x">
+                            <td>{{validateLineScore(i.score, scoreInfo.basicGameData, x)}}</td>
+                        </ng-container>
+                        <th>{{scoreInfo.basicGameData.hTeam.score}}</th>
+                    </tr>
+                </tbody>
+            </table>
+            <hr>
+        </ng-container>
+        <ng-container *ngIf = "scoreInfo.basicGameData.statusNum == 2 || scoreInfo.basicGameData.statusNum == 3">
+            <h5><b>Top Performers</b></h5>
+            <div class = "media">
+                <h5><img class = "mr-3" src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{{getKeyPlayers(scoreInfo.basicGameData.vTeam.teamId).id}}.png" style="border-radius: 50%; width: 5rem;"></h5>
+                <p class = "mt-0" style="line-height: 1.4;"><b><a routerLink = "/players/detail/{{getKeyPlayers(scoreInfo.basicGameData.vTeam.teamId).id}}" routerLinkActive = "active">{{getKeyPlayers(scoreInfo.basicGameData.vTeam.teamId).name}}</a></b><br><div style="font-size:small">{{getKeyPlayers(scoreInfo.basicGameData.vTeam.teamId).pts}} PTS, {{getKeyPlayers(scoreInfo.basicGameData.vTeam.teamId).reb}} REB, {{getKeyPlayers(scoreInfo.basicGameData.vTeam.teamId).ast}} AST, {{getKeyPlayers(scoreInfo.basicGameData.vTeam.teamId).stl}} STL, {{getKeyPlayers(scoreInfo.basicGameData.vTeam.teamId).blk}} BLK</div></p>
+            </div> 
+            <div class = "media">
+                <h5><img class = "mr-3" src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{{getKeyPlayers(scoreInfo.basicGameData.hTeam.teamId).id}}.png" style="border-radius: 50%; width: 5rem;"></h5>
+                <p class = "mt-0" style="line-height: 1.4;"><b><a routerLink = "/players/detail/{{getKeyPlayers(scoreInfo.basicGameData.hTeam.teamId).id}}" routerLinkActive = "active">{{getKeyPlayers(scoreInfo.basicGameData.hTeam.teamId).name}}</a></b><br><div style="font-size:small">{{getKeyPlayers(scoreInfo.basicGameData.hTeam.teamId).pts}} PTS, {{getKeyPlayers(scoreInfo.basicGameData.hTeam.teamId).reb}} REB, {{getKeyPlayers(scoreInfo.basicGameData.hTeam.teamId).ast}} AST, {{getKeyPlayers(scoreInfo.basicGameData.hTeam.teamId).stl}} STL, {{getKeyPlayers(scoreInfo.basicGameData.hTeam.teamId).blk}} BLK</div></p>
+            </div>    
+            <hr>
+        </ng-container>
+        <ng-container *ngIf = "scoreInfo.basicGameData.statusNum == 2 || scoreInfo.basicGameData.statusNum == 3">
+            <h5><b>Play by Play</b></h5>
+            <ng-container *ngIf = "scoreInfo.basicGameData.statusNum == 2; else redBtn">
+                <table class = "table table-hover" >
+                    <tbody>
+                      <tr class = "thead-dark">
+                        <th class = "justify-content-between" colspan="3">Last Play</th>
+                      </tr>
+                      <tr>
+                          <td><img src="https://cdn.nba.net/assets/logos/teams/secondary/web/{{pbpPlay.team_abr}}.svg" style="width: 40px;"></td>
+                          <td><b>{{pbpPlay.description}}</b></td>
+                          <td><b>{{pbpPlay.clock}}</b></td>
+                      </tr>
+                    </tbody>
+                </table>
+                <a routerLink = "/pbp/{{scoreInfo.basicGameData.vTeam.triCode}}/{{scoreInfo.basicGameData.hTeam.triCode}}/{{scoreInfo.basicGameData.startDateEastern}}/{{scoreInfo.basicGameData.gameId}}" class = "btn btn-danger" style = "width: 100%;"><b>View all</b></a>
+            </ng-container>
+            <ng-template #redBtn>
+                <a routerLink = "/pbp/{{scoreInfo.basicGameData.vTeam.triCode}}/{{scoreInfo.basicGameData.hTeam.triCode}}/{{scoreInfo.basicGameData.startDateEastern}}/{{scoreInfo.basicGameData.gameId}}" class = "btn btn-danger" style = "width: 100%;"><b>View all</b></a>
+            </ng-template>
+            <hr>
+        </ng-container>
+        <ng-container *ngIf = "validateObj(scoreInfo)">
+            <ng-container *ngIf = "validateLeaders(scoreInfo.stats)">
+                <h5><b>Leaders</b></h5>
+                <table class = "table table-hover">
+                    <tbody>
+                      <tr class = "thead-dark">
+                        <th class = "justify-content-between" colspan="3"><img src="https://cdn.nba.net/assets/logos/teams/secondary/web/{{scoreInfo.basicGameData.vTeam.triCode}}.svg" style="width: 40px;"> {{getName(scoreInfo.basicGameData.vTeam.teamId)}}</th>
+                      </tr>
+                      <tr>
+                          <td><b>Points</b></td>
+                          <td><a routerLink = "/players/detail/{{scoreInfo.stats.vTeam.leaders.points.players[0].personId}}">{{scoreInfo.stats.vTeam.leaders.points.players[0].firstName}} {{scoreInfo.stats.vTeam.leaders.points.players[0].lastName}}</a></td>
+                          <td><b>{{scoreInfo.stats.vTeam.leaders.points.value}}</b></td>
+                      </tr>
+                      <tr>
+                          <td><b>Rebounds</b></td>
+                          <td><a routerLink = "/players/detail/{{scoreInfo.stats.vTeam.leaders.rebounds.players[0].personId}}">{{scoreInfo.stats.vTeam.leaders.rebounds.players[0].firstName}} {{scoreInfo.stats.vTeam.leaders.rebounds.players[0].lastName}}</a></td>
+                          <td><b>{{scoreInfo.stats.vTeam.leaders.rebounds.value}}</b></td>
+                        </tr>
+                      <tr>
+                          <td><b>Assists</b></td>
+                          <td><a routerLink = "/players/detail/{{scoreInfo.stats.vTeam.leaders.assists.players[0].personId}}">{{scoreInfo.stats.vTeam.leaders.assists.players[0].firstName}} {{scoreInfo.stats.vTeam.leaders.assists.players[0].lastName}}</a></td>
+                          <td><b>{{scoreInfo.stats.vTeam.leaders.assists.value}}</b></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <table class = "table table-hover" >
+                    <tbody>
+                      <tr class = "thead-dark">
+                        <th class = "justify-content-between" colspan="3"><img src="https://cdn.nba.net/assets/logos/teams/secondary/web/{{scoreInfo.basicGameData.hTeam.triCode}}.svg" style="width: 40px;"> {{getName(scoreInfo.basicGameData.hTeam.teamId)}}</th>
+                      </tr>
+                      <tr>
+                          <td><b>Points</b></td>
+                          <td><a routerLink = "/players/detail/{{scoreInfo.stats.hTeam.leaders.points.players[0].personId}}">{{scoreInfo.stats.hTeam.leaders.points.players[0].firstName}} {{scoreInfo.stats.hTeam.leaders.points.players[0].lastName}}</a></td>
+                          <td><b>{{scoreInfo.stats.hTeam.leaders.points.value}}</b></td>
+                      </tr>
+                      <tr>
+                          <td><b>Rebounds</b></td>
+                          <td><a routerLink = "/players/detail/{{scoreInfo.stats.hTeam.leaders.rebounds.players[0].personId}}">{{scoreInfo.stats.hTeam.leaders.rebounds.players[0].firstName}} {{scoreInfo.stats.hTeam.leaders.rebounds.players[0].lastName}}</a></td>
+                          <td><b>{{scoreInfo.stats.hTeam.leaders.rebounds.value}}</b></td>
+                        </tr>
+                      <tr>
+                          <td><b>Assists</b></td>
+                          <td><a routerLink = "/players/detail/{{scoreInfo.stats.hTeam.leaders.assists.players[0].personId}}">{{scoreInfo.stats.hTeam.leaders.assists.players[0].firstName}} {{scoreInfo.stats.hTeam.leaders.assists.players[0].lastName}}</a></td>
+                          <td><b>{{scoreInfo.stats.hTeam.leaders.assists.value}}</b></td>
+                      </tr>
+                    </tbody>
+                  </table>
+            </ng-container>
+            <hr>
+        </ng-container>
+        <table class = "table">
+            <tbody>
+              <tr class = "thead-dark">
+                <th class = "justify-content-between" colspan="3">Game Details</th>
+              </tr>
+              <tr>
+                  <td><b>Arena: </b>{{scoreInfo.basicGameData.arena.name}}, {{scoreInfo.basicGameData.arena.city}}</td>
+                </tr>
+            <ng-container *ngIf = "scoreInfo.basicGameData.statusNum == 1 || scoreInfo.basicGameData.statusNum == 2">
+                <tr>
+                    <td><b>Watch on: </b>{{getBroadcasters()}}</td>
+                </tr>
+            </ng-container>
+              <div *ngIf = "scoreInfo.basicGameData.attendance != ''">
+                  <tr>
+                    <td><b>Attendance:  </b>{{formatData(scoreInfo.basicGameData.attendance)}}</td>
+                  </tr>
+              </div>
+              <div *ngIf = "scoreInfo.basicGameData.officials.formatted.length > 0">
+                  <tr>
+                      <td><b>Officials:</b> {{getOfficials(scoreInfo.basicGameData.officials.formatted)}}</td>
+                  </tr>
+              </div>
+            </tbody>
+        </table>
+        <hr>
+        <!--<a href="https://www.youtube.com/watch?v={{getYt()}}" target = "_blank" style = "width: 100%;" class = "btn btn-dark">View in YouTube  <img style = "width: 1.5rem;"src="assets\580b57fcd9996e24bc43c545.png" alt=""></a> -->
+    </div>
+</div>

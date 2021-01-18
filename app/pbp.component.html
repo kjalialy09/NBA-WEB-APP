@@ -1,0 +1,25 @@
+<h1>Play-by-play (beta)</h1>
+
+
+<div>
+    <table class = "table table-hover table-responsive">
+        <thead class = "thead-dark" data-toggle="collapse" data-target="#accordion" style="width: 100%;">
+            <th>TIME</th>
+            <th>TEAM</th>
+            <th>PLAY</th>
+            <th>SCORE</th>
+        </thead>    
+        <tbody>
+            <ng-container *ngFor = "let i of pbp">
+                <tr>
+                    <td>{{i.clock}}</td>
+                    <td><img style = "width: 40px;" src="{{getLogo(i.team)}}" alt=""></td>
+                    <td>{{i.desc}}</td>
+                    <td>{{i.visitorScore}}-{{i.homeScore}}</td>
+                </tr>    
+            </ng-container>    
+
+        </tbody>    
+    </table>    
+</div>    
+

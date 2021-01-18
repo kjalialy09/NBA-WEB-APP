@@ -1,0 +1,24 @@
+<h3 _ngcontent-bso-c2 class ="form-inline"><b>List of NBA players - search for...</b>
+    &nbsp;&nbsp;
+    <input type = "search" class="form-control ng-untouched ng-pristine ng-valid" 
+    placeholder="(3 or more characters..) "[(ngModel)]="player" (ngModelChange)="searchPlayers()">
+    &nbsp;&nbsp;
+  </h3>
+  &nbsp;&nbsp;
+
+  <div class = "container">
+    <div class = "row">
+        <div class = "playersRow" *ngFor = "let p of playerinfo">
+          <div class="card">
+              <img src={{p.pic}} (error) = "p.pic = errorImg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title"><a routerLink="/players/detail/{{p.playerId}}" routerLinkActive="active"><b>{{p.fName}} {{p.lName}}</b></a></h5>
+                <p class="card-text"><b>Team:</b><br><a routerLink="/teams/detail/{{p.teamId}}" routerLinkActive="active">{{p.simpleTeamName}}<img src= "https://cdn.nba.net/assets/logos/teams/secondary/web/{{p.teamAbb}}.svg" style="width: 28px;"></a></p>
+                <p class="card-text"><b>Position:</b><br>{{p.pos}}</p>
+                <p class="card-text"><b>Height | Weight:</b><br>{{p.heightF}} ft {{p.heightI}} in | {{p.weight}} lbs</p>
+              </div>
+          </div>
+          &nbsp;&nbsp;
+        </div>
+    </div>
+</div>

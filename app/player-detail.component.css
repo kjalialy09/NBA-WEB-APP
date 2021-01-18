@@ -1,0 +1,57 @@
+
+/* Use overflow:scroll on your container to enable scrolling: */
+
+#regszn {
+  max-height: 300px;
+  overflow: scroll;
+}
+
+
+/* Use position: sticky to have it stick to the edge
+ * and top, right, or left to choose which edge to stick to: */
+
+#regszn thead th {
+  position: -webkit-sticky; /* for Safari */
+  position: sticky;
+  top: 0;
+}
+
+#regszn tbody th {
+  position: -webkit-sticky; /* for Safari */
+  position: sticky;
+  left: 0;
+}
+
+
+/* To have the header in the first column stick to the left: */
+
+#regszn thead th:first-child{
+  left: 0;
+  z-index: 1;
+}
+
+/* Just to display it nicely: */
+
+#regszn thead th {
+  color: #FFF;
+}
+
+#regszn tbody th {
+  background: #FFF;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+td,
+th {
+  padding: 0.5em;
+}
+/* Portrait */
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 812px) 
+  and (-webkit-min-device-pixel-ratio: 3)
+  and (orientation: portrait) { 
+}

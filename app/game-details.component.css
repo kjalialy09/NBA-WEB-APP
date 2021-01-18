@@ -1,0 +1,55 @@
+
+/* Use overflow:scroll on your container to enable scrolling: */
+
+#playerStats{
+    max-height: 500px;
+    overflow: scroll;
+  }
+
+#injuries {
+  max-height: 320px;
+  overflow: scroll;
+}
+
+  
+  span.emoji {
+    font-size: 5px;
+    line-height: 2;
+  }
+
+  #color {
+    background-color: hTeamColor;
+  }
+
+  /* Use position: sticky to have it stick to the edge
+   * and top, right, or left to choose which edge to stick to: */
+  
+  #playerStats thead th {
+    position: -webkit-sticky; /* for Safari */
+    position: sticky;
+    top: 0;
+  }
+
+  #playerStats tbody th {
+    position: -webkit-sticky; /* for Safari */
+    position: sticky;
+    left: 0;
+  }
+
+
+  /* To have the header in the first column stick to the left: */
+  
+  #playerStats thead th:first-child {
+    left: 0;
+    z-index: 1;
+  }
+  /* Just to display it nicely: */
+  
+  #playerStats thead th {
+    color: #FFF;
+  }
+  
+  #playerStats tbody th {
+    background: #FFF;
+  }
+  

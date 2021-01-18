@@ -1,0 +1,80 @@
+#button-group {
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  /* Use position: sticky to have it stick to the edge
+ * and top, right, or left to choose which edge to stick to: */
+
+#standings thead th {
+  position: -webkit-sticky; /* for Safari */
+  position: sticky;
+  top: 0;
+}
+
+#standings tbody th {
+  position: -webkit-sticky; /* for Safari */
+  position: sticky;
+  left: 0;
+}
+
+
+/* To have the header in the first column stick to the left: */
+
+#standings thead th:first-child{
+  left: 0;
+  z-index: 1;
+}
+
+/* Just to display it nicely: */
+
+#restandingsgszn thead th {
+  color: #FFF;
+}
+
+#standings tbody th {
+  background: #FFF;
+}
+
+
+/* Portrait */
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 812px) 
+  and (-webkit-min-device-pixel-ratio: 3)
+  and (orientation: portrait) { 
+    th {
+      position: sticky;
+      top: 0;
+    }
+
+}
+
+/* Portrait */
+@media only screen 
+and (min-device-width: 375px) 
+and (max-device-width: 667px) 
+and (-webkit-min-device-pixel-ratio: 2)
+and (orientation: portrait) { 
+    .card {
+      margin: auto; /* Added */
+      float: none; /* Added */
+      margin-bottom: 10px; /* Added */
+      height: 350px;
+      width: 160px;
+  }
+  th {
+    position: sticky;
+    top: 0;
+  }
+
+  .card-text {
+    font-size: small;
+  }
+
+  .card-title {
+    font-size: medium;
+  }
+}

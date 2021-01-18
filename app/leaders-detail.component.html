@@ -1,0 +1,14 @@
+<h3><b>{{typeOfStat}}</b></h3>
+<div class = "container">
+    <div class = "row">
+        <div class = "playersRow" *ngFor = "let p of rank">
+            <div class="card">
+                <img src={{p.pic}} class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title"><a routerLink="/players/detail/{{p.playerId}}" routerLinkActive="active">{{p.rank}}. {{p.name}}</a></h5>
+                  <p class="card-text">Value: {{p.value}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

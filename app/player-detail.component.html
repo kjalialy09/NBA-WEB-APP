@@ -1,0 +1,145 @@
+<div *ngIf = "playerinfo" class="jumbotron jumbotron-fluid">
+  <div class="row">
+    &nbsp;
+    <div class="col-md-4 text-center">
+      <img width="250" alt="NBA Logo"
+        src={{playerinfo.pic}} (error) = "playerinfo.pic = errorImg">
+    </div>
+    &nbsp;    &nbsp;
+    <div class="col-md-6">
+      <h1><b>{{playerinfo.fName}} {{playerinfo.lName}}</b></h1>
+      <h5><b>{{playerinfo.teamName}}</b> #{{playerinfo.jersey}}</h5>
+      <h5><b>Position: </b>{{playerinfo.pos}}</h5>
+      <h5><b>Height: </b>{{playerinfo.heightF}} ft {{playerinfo.heightI}} in  <b>Weight: </b> {{playerinfo.weight}} lbs</h5>
+      <h5><b>Years Pro: </b>{{playerinfo.yearsPro}}</h5>
+      <div *ngIf = "playerinfo.draftPick == '' && playerinfo.draftYr == '' && playerinfo.draftRound == ''; else elseBlock">
+        <h5>Undrafted</h5>
+    </div>
+    <ng-template #elseBlock><h5><b>Draft: </b>{{playerinfo.draftYr}} Round {{playerinfo.draftRound}} Pick {{playerinfo.draftPick}} </h5></ng-template>
+    <h5><b>Team(s) Played: </b>{{listNames()}}</h5>
+    </div>
+  </div>
+</div>
+
+<table *ngIf = "awards" class = "table table-hover" >
+  <tbody>
+    <tr class = "thead-dark">
+      <th colspan="3">Awards</th>
+    </tr>
+    <tr *ngFor = "let s of awards; let i = index" [attr.data-index]="i">
+      <td><b>{{s.amount}}x {{s.desc}}</b></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3><b>Career Stats</b></h3>
+<div class = "table-responsive">
+  <table *ngIf = "careerstats" id = "career" class = "table table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th data-toggle="tooltip" data-placement="top" title="Total Points" scope="col">PTS</th>
+        <th data-toggle="tooltip" data-placement="top" title="Total Rebounds" scope="col">RBS</th>
+        <th data-toggle="tooltip" data-placement="top" title="Total Assists" scope="col">ASTS</th>
+        <th data-toggle="tooltip" data-placement="top" title="Total Steals" scope="col">STLS</th>
+        <th data-toggle="tooltip" data-placement="top" title="Total Blocks" scope="col">BLKS</th>
+        <th data-toggle="tooltip" data-placement="top" title="Total Minutes" scope="col">MINS</th>
+        <th data-toggle="tooltip" data-placement="top" title="Total Games Played" scope="col">GP</th>
+        <th data-toggle="tooltip" data-placement="top" title="Total Double Doubles" scope="col">DD2</th>
+        <th data-toggle="tooltip" data-placement="top" title="Total Triple Doubles" scope="col">TD3</th>
+        <th data-toggle="tooltip" data-placement="top" title="Points Per Game" scope="col">PPG</th>
+        <th data-toggle="tooltip" data-placement="top" title="Rebounds Per Game" scope="col">RPG</th>
+        <th data-toggle="tooltip" data-placement="top" title="Assists Per Game" scope="col">APG</th>
+        <th data-toggle="tooltip" data-placement="top" title="Steals Per Game" scope="col">SPG</th>
+        <th data-toggle="tooltip" data-placement="top" title="Blocks Per Game" scope="col">BPG</th>
+        <th data-toggle="tooltip" data-placement="top" title="Turnovers Per Game" scope="col">TPG</th>
+        <th data-toggle="tooltip" data-placement="top" title="Minutes Per Game" scope="col">MPG</th>
+        <th data-toggle="tooltip" data-placement="top" title="Field Goal Percentage" scope="col">FG%</th>
+        <th data-toggle="tooltip" data-placement="top" title="Three Point Percentage" scope="col">3FG%</th>
+        <th data-toggle="tooltip" data-placement="top" title="Free Throw Percentage" scope="col">FT%</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{careerstats.totalPoints}}</td>
+        <td>{{careerstats.totalRb}}</td>
+        <td>{{careerstats.totalAst}}</td>
+        <td>{{careerstats.totalStl}}</td>
+        <td>{{careerstats.totalBk}}</td>
+        <td>{{careerstats.min}}</td>
+        <td>{{careerstats.gamesPlayed}}</td>
+        <td>{{careerstats.DoubleDouble}}</td>
+        <td>{{careerstats.TripleDouble}}</td>
+        <td>{{careerstats.PointsPerGame}}</td>
+        <td>{{careerstats.ReboundsPerGame}}</td>
+        <td>{{careerstats.AssistsPerGame}}</td>
+        <td>{{careerstats.StealsPerGame}}</td>
+        <td>{{careerstats.BlocksPerGame}}</td>
+        <td>{{careerstats.TurnoversPerGame}}</td>
+        <td>{{careerstats.MinutesPerGame}}</td>
+        <td>{{careerstats.FGPercentage}}</td>
+        <td>{{careerstats.ThreePtPercentage}}</td>
+        <td>{{careerstats.FTPercentage}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+&nbsp;    &nbsp;
+
+
+<h3><b>Traditional Regular Season Stats</b></h3>
+<div id = "regszn" class = "table-responsive">
+  <table class="table table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th class = "headcol" scope="col">Year</th>
+        <th scope = "col">Team</th>
+        <th data-toggle="tooltip" data-placement="top" title="Games Played" scope="col">GP</th>
+        <th data-toggle="tooltip" data-placement="top" title="Points Per Game" scope="col">PPG</th>
+        <th data-toggle="tooltip" data-placement="top" title="Rebounds Per Game" scope="col">RPG</th>
+        <th data-toggle="tooltip" data-placement="top" title="Assists Per Game" scope="col">APG</th>
+        <th data-toggle="tooltip" data-placement="top" title="Steals Per Game" scope="col">SPG</th>
+        <th data-toggle="tooltip" data-placement="top" title="Blocks Per Game" scope="col">BPG</th>
+        <th data-toggle="tooltip" data-placement="top" title="Turnovers Per Game" scope="col">TPG</th>
+        <th data-toggle="tooltip" data-placement="top" title="Minutes Per Game" scope="col">MPG</th>
+        <th data-toggle="tooltip" data-placement="top" title="Field Goal Percentage" scope="col">FG%</th>
+        <th data-toggle="tooltip" data-placement="top" title="Field Goal Made" scope="col">FGM</th>
+        <th data-toggle="tooltip" data-placement="top" title="Field Goal Attempts" scope="col">FGA</th>
+        <th data-toggle="tooltip" data-placement="top" title="Three Point Field Goal Percentage" scope="col">3FG%</th>
+        <th data-toggle="tooltip" data-placement="top" title="Three Pointers Made" scope="col">3PM</th>
+        <th data-toggle="tooltip" data-placement="top" title="Three Pointers Attempts" scope="col">3PA</th>
+        <th data-toggle="tooltip" data-placement="top" title="Free Throw Percentage" scope="col">FT%</th>
+        <th data-toggle="tooltip" data-placement="top" title="Free Throws Made" scope="col">FTM</th>
+        <th data-toggle="tooltip" data-placement="top" title="Free Throws Attempts" scope="col">FTA</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor = "let p of playerstats">
+        <th class = "headcol" scope="row">{{p.seasonYear}}</th>
+        <td class = "yessir">{{p.teamAbb}}</td>
+        <td>{{p.gamesPlayed}}</td>
+        <td>{{p.PointsPerGame}}</td>
+        <td>{{p.ReboundsPerGame}}</td>
+        <td>{{p.AssistsPerGame}}</td>
+        <td>{{p.StealsPerGame}}</td>
+        <td>{{p.BlocksPerGame}}</td>
+        <td>{{p.TurnoversPerGame}}</td>
+        <td>{{p.MinutesPerGame}}</td>
+        <td>{{p.FGPercentage}}</td>
+        <td>{{p.FGM}}</td>
+        <td>{{p.FGA}}</td>
+        <td>{{p.ThreePtPercentage}}</td>
+        <td>{{p.FG3M}}</td>
+        <td>{{p.FG3A}}</td>
+        <td>{{p.FTPercentage}}</td>
+        <td>{{p.FTM}}</td>
+        <td>{{p.FTA}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<div *ngIf="playerinfo">
+  <hr>
+  <a routerLink="/players" class="btn btn-primary">Back to list</a>
+</div>

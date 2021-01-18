@@ -1,0 +1,80 @@
+.card {
+    margin: 0 auto; /* Added */
+    float: none; /* Added */
+    margin-bottom: 10px; /* Added */
+    width: 14rem;
+}
+
+.borderless td, .borderless th {
+  border: none;
+}
+a, u {
+  text-decoration: none;
+}
+
+.blah > div {
+  display:inline-block;   
+}
+
+#scroll {
+  max-height: 440px;
+  overflow-y: auto;
+  overflow-x: auto;
+  width: 100%;
+}
+
+/* Portrait */
+@media only screen 
+  and (min-device-width: 375px)   
+  and (max-device-width: 812px) 
+  and (-webkit-min-device-pixel-ratio: 3)
+  and (orientation: portrait) { 
+    .card {
+        margin: auto; /* Added */
+        float: none; /* Added */
+        margin-bottom: 10px; /* Added */
+        height: 270px;
+        width: 160px;
+    }
+  
+    .card-text {
+      font-size: medium;
+    }
+  
+    .card-title {
+      font-size: medium;
+      font-style: bold;
+    }
+    .btn {
+      width: 7rem;
+    }
+    .col-md-4 {
+      margin: auto; /* Added */
+      float: none; /* Added */
+    }
+}
+
+/* Portrait */
+@media only screen 
+and (min-device-width: 375px) 
+and (max-device-width: 667px) 
+and (-webkit-min-device-pixel-ratio: 2)
+and (orientation: portrait) { 
+    .card {
+      margin: auto; /* Added */
+      float: none; /* Added */
+      margin-bottom: 10px; /* Added */
+      height: 270px;
+      width: 160px;
+  }
+
+  .card-text {
+    font-size: medium;
+  }
+
+  .card-title {
+    font-size: medium;
+    font-style: bold;
+  }
+
+}

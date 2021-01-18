@@ -1,0 +1,58 @@
+<h1><b>Scoreboard</b></h1>
+
+<h5>Games from beginning of the season to current</h5>
+<mat-form-field color="blue" appearance="fill" id = "calendar">
+  <mat-label>Choose a date</mat-label>
+  <input placeholder = "MM/DD/YYYY" [(ngModel)] = "date" (ngModelChange) = "getDate()" matInput [matDatepicker]="picker2">
+  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+  <mat-datepicker #picker2 color="primary"></mat-datepicker>
+</mat-form-field>
+
+<div *ngIf = "scores != null">
+  <div class = "row">
+    <div *ngIf = "noGames == true; else array" style = "width: 100%;"class = "d-flex justify-content-center">
+      <h4>{{scores}}</h4>
+    </div>
+    <ng-template #array>
+      <div class = "tmp" *ngFor = "let p of scores">
+        <div class = "col">
+          <a routerLink="/scores/{{date.getFullYear().toString() + ('0' + (date.getMonth()+1)).slice(-2) + 
+          ('0' + date.getDate()).slice(-2)}}/{{p.gameId}}" routerLinkActive="active">
+            <table class = "table table-sm borderless responsive" style="width: 20rem;">
+              <tbody>
+                <tr>
+                  <td colspan="2"><a style = "font-size: large;"routerLink="/teams/detail/{{p.vTeam.teamId}}" routerLinkActive="active"><img src="https://cdn.nba.net/assets/logos/teams/secondary/web/{{p.vTeam.triCode}}.svg" style="width: 32px;">  <b>{{p.vTeam.triCode}}</b></a></td>
+                  <ng-container *ngIf = "p.vTeam.score != '' && convertToNum(p.vTeam.score) > convertToNum(p.hTeam.score); else hTeam">
+                    <td colspan = "2" style="text-align:right; font-size: large;"><p><b>{{p.vTeam.score}}</b></p></td>
+                  </ng-container>
+                  <ng-template #hTeam>
+                    <td colspan = "2" style="text-align:right; font-size: large;"><p>{{p.vTeam.score}}</p></td>
+                  </ng-template>
+                  <td style = "text-align: right; width: auto; font-size: large;"><b>{{getQtrByNumber(p)}}</b></td>
+                </tr>
+                <tr>
+                  <td colspan="2"><a style = "font-size: large;" routerLink="/teams/detail/{{p.hTeam.teamId}}" routerLinkActive="active"><img src="https://cdn.nba.net/assets/logos/teams/secondary/web/{{p.hTeam.triCode}}.svg" style="width: 32px;">  <b>{{p.hTeam.triCode}}</b></a></td>
+                  <ng-container *ngIf = "p.hTeam.score != '' && convertToNum(p.hTeam.score) > convertToNum(p.vTeam.score); else vTeam">
+                    <td colspan = "2" style="text-align:right; font-size: large;"><p><b>{{p.hTeam.score}}</b></p></td>
+                  </ng-container>
+                  <ng-template #vTeam>
+                    <td colspan = "2" style="text-align:right; font-size: large;"><p>{{p.hTeam.score}}</p></td>
+                  </ng-template>
+                </tr>
+                <tr>
+                  <ng-container *ngIf = "p.statusNum == 2 || p.statusNum == 3">
+                    <td colspan="2"><a class="badge badge-primary" routerLink="/scores/{{date.getFullYear().toString() + ('0' + (date.getMonth()+1)).slice(-2) + 
+                      ('0' + date.getDate()).slice(-2)}}/{{p.gameId}}" style ="width: 100%; font-size: medium;"routerLinkActive="active">Box score</a></td>
+                    <td colspan="4"><a class="badge badge-danger float-right" routerLink = "/pbp/{{p.vTeam.triCode}}/{{p.hTeam.triCode}}/{{date.getFullYear().toString() + ('0' + (date.getMonth()+1)).slice(-2) + 
+                      ('0' + date.getDate()).slice(-2)}}/{{p.gameId}}" style ="width: 100%; font-size: medium;"routerLinkActive="active">Play by Play</a></td>
+                  </ng-container>
+                </tr>
+              </tbody>
+            </table>
+          </a>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>
+

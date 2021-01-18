@@ -1,0 +1,21 @@
+<h3><b>List of NBA Teams</b></h3>
+<div id = "button-group" class="btn-group sticky-top" role="group" aria-label="Basic example">
+  <button (click) = "west()" data-toggle="tooltip" data-placement="top" title="View Western Conference teams" style = "width: 15rem;" type="button" class="btn btn-danger"><b>Western Conference</b></button>
+  <button (click) = "east()" data-toggle="tooltip" data-placement="top" title="View Eastern Conference teams" style = "width: 15rem;"type="button" class="btn btn-info"><b>Eastern Conference</b></button>
+  
+  <button (click) = "all()" data-toggle="tooltip" data-placement="top" title="View all NBA teams" style = "width: 5rem;"type="button" class="btn btn-dark"><b>All</b></button>
+</div>
+<br>
+<div class = "container">
+    <div class = "row">
+        <div class = "teamRow" *ngFor = "let p of team">
+          <div class="card">
+              <img src={{p.logoUrl}} class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title"><a routerLink="/teams/detail/{{p.teamId}}" routerLinkActive="active"><b>{{p.teamName}}</b></a></h5>
+            </div>
+          </div>
+          &nbsp;&nbsp;
+        </div>
+    </div>
+</div>

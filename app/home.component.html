@@ -1,0 +1,134 @@
+<div class="jumbotron">
+    <div class="row">
+      <div class="col-md-2">
+        <img width="100" alt="NBA Logo"
+          src="https://pngimg.com/uploads/nba/nba_PNG15.png">
+      </div>
+      <div class="col-md-10">
+        <h1><b>NBA App</b></h1>
+        <h2>Web application for NBA players, teams statistics</h2>
+      </div>
+    </div>
+</div>
+
+<div class = "row">
+  <div class = "col-md-8">
+    <h3><b>Features</b></h3>
+    <div class = "row">
+      <div class="card">
+        <img src="assets/player_pic.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title"><b>Players</b></h5>
+          <p class="card-text">Current NBA players stats</p>
+          <a routerLink="/players" routerLinkActive="active"class="btn btn-primary">View</a>
+        </div>
+      </div>
+      &nbsp;&nbsp;
+      <div class="card">
+        <img src="assets/team_pic.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title"><b>Teams</b></h5>
+          <p class="card-text">Information about teams</p>
+          <a routerLink="/teams" routerLinkActive="active"class="btn btn-primary">View</a>
+        </div>
+      </div>
+      &nbsp;&nbsp;
+      <div class="card">
+        <img src="assets/standings_pic.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title"><b>Standings</b></h5>
+          <p class="card-text">ECF/WCF standings</p>
+          <a routerLink="/standings" routerLinkActive="active"class="btn btn-primary">View</a>
+        </div>
+      </div>
+      &nbsp;&nbsp;
+
+      <div class="card">
+        <img src="assets/scores_pic.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title"><b>Scores</b></h5>
+          <p class="card-text">Scoreboard for a specific date</p>
+          <a routerLink="/scores" routerLinkActive="active"class="btn btn-primary">View</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="assets/newLeaders.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title"><b>Leaders</b></h5>
+          <p class="card-text">Current season player and team leaders</p>
+          <a routerLink="/leaders" routerLinkActive="active"class="btn btn-primary">View</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class = "col-md-4">
+    <div class="blah">
+      <div>
+        <h3><b>Games today</b></h3>
+      </div>
+      <div>
+        <h6>({{getDate(date)}})</h6>
+      </div>
+    </div>
+    <!--
+      <a class="twitter-timeline" data-lang="en" data-width="300" data-height="300" data-theme="dark" href="https://twitter.com/wojespn?ref_src=twsrc%5Etfw">Tweets by wojespn</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+      <a class="twitter-timeline" data-lang="en" data-width="300" data-height="300" data-theme="dark" href="https://twitter.com/ShamsCharania?ref_src=twsrc%5Etfw">Tweets by ShamsCharania</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    -->
+    <div *ngIf = "scores != null">
+      <div class = "row">
+        <div *ngIf = "noGames == true; else array" style = "width: 100%;"class = "d-flex justify-content-center">
+          <h4>{{scores}}</h4>
+        </div>
+        <ng-template #array>
+          <div id = "scroll">
+            <div class = "tmp"*ngFor = "let p of scores"> 
+              <div class = "col">
+                <a routerLink="/scores/{{date.getFullYear().toString() + ('0' + (date.getMonth()+1)).slice(-2) + 
+                ('0' + date.getDate()).slice(-2)}}/{{p.gameId}}" routerLinkActive="active">
+                  <table class = "table table-sm borderless responsive" style="width: 100%;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2"><a routerLink="/teams/detail/{{p.vTeam.teamId}}" routerLinkActive="active"><img src="https://cdn.nba.net/assets/logos/teams/secondary/web/{{p.vTeam.triCode}}.svg" style="width: 32px;">  <b>{{p.vTeam.triCode}}</b></a></td>
+                        <ng-container *ngIf = "p.vTeam.score != '' && convertToNum(p.vTeam.score) > convertToNum(p.hTeam.score); else hTeam">
+                          <td colspan = "2" style="text-align:right"><p><b>{{p.vTeam.score}}</b></p></td>
+                        </ng-container>
+                        <ng-template #hTeam>
+                          <td colspan = "2" style="text-align:right"><p>{{p.vTeam.score}}</p></td>
+                        </ng-template>
+                        <td style = "text-align: right; width: auto;"><b>{{getQtrByNumber(p)}}</b></td>
+                      </tr>
+                      <tr>
+                        <td colspan="2"><a routerLink="/teams/detail/{{p.hTeam.teamId}}" routerLinkActive="active"><img src="https://cdn.nba.net/assets/logos/teams/secondary/web/{{p.hTeam.triCode}}.svg" style="width: 32px;">  <b>{{p.hTeam.triCode}}</b></a></td>
+                        <ng-container *ngIf = "p.hTeam.score != '' && convertToNum(p.hTeam.score) > convertToNum(p.vTeam.score); else vTeam">
+                          <td colspan = "2" style="text-align:right"><p><b>{{p.hTeam.score}}</b></p></td>
+                        </ng-container>
+                        <ng-template #vTeam>
+                          <td colspan = "2" style="text-align:right"><p>{{p.hTeam.score}}</p></td>
+                        </ng-template>
+                      </tr>
+                      <tr>
+                        <ng-container *ngIf = "p.statusNum == 2 || p.statusNum == 3;">
+                          <td colspan="2"><a class="badge badge-primary" routerLink="/scores/{{date.getFullYear().toString() + ('0' + (date.getMonth()+1)).slice(-2) + 
+                            ('0' + date.getDate()).slice(-2)}}/{{p.gameId}}" style ="width: 100%; font-size: medium;"routerLinkActive="active">Box score</a></td>
+                          <td colspan="4"><a class="badge badge-danger float-right" routerLink = "/pbp/{{p.vTeam.triCode}}/{{p.hTeam.triCode}}/{{date.getFullYear().toString() + ('0' + (date.getMonth()+1)).slice(-2) + 
+                            ('0' + date.getDate()).slice(-2)}}/{{p.gameId}}" style ="width: 100%; font-size: medium;"routerLinkActive="active">Play by Play</a></td>
+                        </ng-container>
+                      </tr>
+                    </tbody>
+                  </table>
+                </a>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+    <hr>
+    <h3><b>News</b></h3>
+    <a class="twitter-timeline" data-lang="en" data-width="max" data-height="300" data-theme="dark" href="https://twitter.com/ShamsCharania?ref_src=twsrc%5Etfw">Tweets by ShamsCharania</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <hr>
+  </div>
+</div>
+<div class = "container">
+</div>

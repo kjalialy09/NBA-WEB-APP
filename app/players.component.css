@@ -1,0 +1,67 @@
+.card {
+    margin: auto; /* Added */
+    float: none; /* Added */
+    margin-bottom: 10px; /* Added */
+    height: 400px;
+    width: 13rem;
+}
+
+p {
+    margin: 0 auto;
+}
+
+input[type=search] {
+    -webkit-appearance: none;
+  }
+  input[type=search]::-webkit-search-cancel-button {
+    -webkit-appearance: searchfield-cancel-button;
+  }
+
+.playersRow {
+    margin: 5px;
+}
+/* Portrait */
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 812px) 
+  and (-webkit-min-device-pixel-ratio: 3)
+  and (orientation: portrait) { 
+    .card {
+      margin: auto; /* Added */
+      float: none; /* Added */
+      margin-bottom: 10px; /* Added */
+      height: 350px;
+      width: 160px;
+  }
+
+  .card-text {
+    font-size: small;
+  }
+
+  .card-title {
+    font-size: medium;
+  }
+}
+
+/* Portrait */
+@media only screen 
+and (min-device-width: 375px) 
+and (max-device-width: 667px) 
+and (-webkit-min-device-pixel-ratio: 2)
+and (orientation: portrait) { 
+    .card {
+      margin: auto; /* Added */
+      float: none; /* Added */
+      margin-bottom: 10px; /* Added */
+      height: 350px;
+      width: 160px;
+  }
+
+  .card-text {
+    font-size: small;
+  }
+
+  .card-title {
+    font-size: medium;
+  }
+}

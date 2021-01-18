@@ -1,0 +1,58 @@
+<h3><b>{{typeOfStat}}</b></h3>
+<div class = "container">
+    <div class = "row">
+        <div class = "teamsRow" *ngFor = "let p of rank; let i = index" [attr.data-index]="i">
+            <div class="card">
+                <img src={{p.url}} class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title"><a routerLink="/teams/detail/{{p.id}}" routerLinkActive="active">{{i + 1}}. {{p.name}} {{p.nickname}}</a></h5>
+                  <div *ngIf = "sort == 'PTS'">
+                    <p class="card-text">Value: {{p.ppg}}</p>
+                  </div>
+                  <div *ngIf = "sort == 'REB'">
+                    <p class="card-text">Value: {{p.trpg}}</p>
+                  </div>
+                  <div *ngIf = "sort == 'AST'">
+                    <p class="card-text">Value: {{p.apg}}</p>
+                  </div>
+                  <div *ngIf = "sort == 'STL'">
+                    <p class="card-text">Value: {{p.spg}}</p>
+                  </div>
+                  <div *ngIf = "sort == 'BLK'">
+                    <p class="card-text">Value: {{p.bpg}}</p>
+                  </div>
+                  <div *ngIf = "sort == 'MIN'">
+                    <p class="card-text">Value: {{p.min}}</p>
+                  </div>
+                  <div *ngIf = "sort == 'FGP'">
+                    <p class="card-text">Value: {{p.fgp}}</p>
+                  </div>
+                  <div *ngIf = "sort == 'TPP'">
+                    <p class="card-text">Value: {{p.tpp}}</p>
+                  </div>
+                  <div *ngIf = "sort == 'FTP'">
+                    <p class="card-text">Value: {{p.ftp}}</p>
+                  </div>
+                  <div *ngIf = "sort == 'PFPG'">
+                    <p class="card-text">Value: {{p.pfpg}}</p>
+                  </div>
+                  <div *ngIf = "sort == 'TOV'">
+                    <p class="card-text">Value: {{p.tpg}}</p>
+                  </div>
+                  <div *ngIf = "sort == 'OPPG'">
+                    <p class="card-text">Value: {{p.oppg}}</p>
+                  </div>
+                  <div *ngIf = "sort == 'ORTG'">
+                    <p class="card-text">Value: {{p.ortg}}</p>
+                  </div>
+                  <div *ngIf = "sort == 'DRTG'">
+                    <p class="card-text">Value: {{p.drtg}}</p>
+                  </div>
+                  <div *ngIf = "sort == 'PACE'">
+                    <p class="card-text">Value: {{p.pace}}</p>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

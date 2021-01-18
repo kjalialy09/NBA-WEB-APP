@@ -1,0 +1,57 @@
+.card {
+    margin: auto; /* Added */
+    float: none; /* Added */
+    margin-bottom: 10px; /* Added */
+    height: 350px;
+    width: 13rem;
+}
+
+.teamsRow {
+    margin: 5px;
+}
+
+/* Portrait */
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 812px) 
+  and (-webkit-min-device-pixel-ratio: 3)
+  and (orientation: portrait) { 
+    .card {
+      margin: auto; /* Added */
+      float: none; /* Added */
+      margin-bottom: 10px; /* Added */
+      height: 270px;
+      width: 160px;
+  }
+
+  .card-text {
+    font-size: small;
+  }
+
+  .card-title {
+    font-size: medium;
+  }
+}
+
+/* Portrait */
+@media only screen 
+and (min-device-width: 375px) 
+and (max-device-width: 667px) 
+and (-webkit-min-device-pixel-ratio: 2)
+and (orientation: portrait) { 
+    .card {
+      margin: auto; /* Added */
+      float: none; /* Added */
+      margin-bottom: 10px; /* Added */
+      height: 270px;
+      width: 160px;
+  }
+
+  .card-text {
+    font-size: medium;
+  }
+
+  .card-title {
+    font-size: medium;
+  }
+}

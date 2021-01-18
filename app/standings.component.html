@@ -1,0 +1,43 @@
+<br>
+<h2><b>{{TypeOfStandings}}</b></h2>
+<div id = "button-group" class="btn-group" role="group" aria-label="Basic example">
+    <button data-toggle="tooltip" data-placement="top" title="View Western Conference Standings" (click) = "west()" style = "width: 15rem;" type="button" class="btn btn-danger"><b>Western Conference</b></button>
+    <button data-toggle="tooltip" data-placement="top" title="View Eastern Conference Standings" (click) = "east()" style = "width: 15rem;"type="button" class="btn btn-info"><b>Eastern Conference</b></button>
+    <button data-toggle="tooltip" data-placement="top" title="View all NBA Standings" (click) = "all()" style = "width: 5rem;"type="button" class="btn btn-secondary"><b>All</b></button>
+</div>
+<br>
+<div class = "table-responsive">
+    <table *ngIf = "standings" class = "table table-hover" id = "standings">
+        <thead class = "thead-dark">
+            <tr>
+                <th></th>
+                <th scope="col">Team</th>
+                <th data-toggle="tooltip" data-placement="top" title="Wins" scope="col">W</th>
+                <th data-toggle="tooltip" data-placement="top" title="Losses" scope="col">L</th>
+                <th data-toggle="tooltip" data-placement="top" title="Winning Percentage" scope="col">PCT</th>
+                <th data-toggle="tooltip" data-placement="top" title="Games Back" scope="col">GB</th>
+                <th data-toggle="tooltip" data-placement="top" title="Home Record" scope="col">Home</th>
+                <th data-toggle="tooltip" data-placement="top" title="Away Record" scope="col">Away</th>
+                <th data-toggle="tooltip" data-placement="top" title="Record last 10 games" scope="col">L10</th>
+                <th data-toggle="tooltip" data-placement="top" title="Current Streak" scope="col">Streak</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor = "let s of standings; let i = index" [attr.data-index]="i">
+                <th scope = "row">{{s.pos}}</th>
+                <td id="col2"><a routerLink="/teams/detail/{{s.teamID}}" routerLinkActive="active"><b>{{s.teamName}}</b><img src={{s.logoAlt}} style="width: 32px;"> </a></td>
+                <td>{{s.w}}</td>
+                <td>{{s.l}}</td>
+                <td>{{s.pct}}</td>
+                <td>{{s.gb}}</td>
+                <td>{{s.homeW}}-{{s.homeL}}</td>
+                <td>{{s.awayW}}-{{s.awayL}}</td>
+                <td>{{s.last10W}}-{{s.last10L}}</td>
+                <div *ngIf = "s.isWinStreak == true; else elseBlock">
+                    <td>W{{s.streak}}</td>
+                </div>
+                <ng-template #elseBlock><td>L{{s.streak}}</td></ng-template>
+            </tr>
+        </tbody>
+    </table>
+</div>
